@@ -1,5 +1,5 @@
 import React from 'react';
-import { addFavourite } from '../actions';
+import { addFavourite, removeFromFavourite } from '../actions';
 
 class MovieCard extends React.Component {
     handleFavouriteClick = () => {
@@ -7,28 +7,29 @@ class MovieCard extends React.Component {
         this.props.dispatch(addFavourite(movie));
     }
     handleUnFavouriteClick = () => {
-        // const { movie } = this.props
+        const { movie } = this.props;
+        this.props.dispatch(removeFromFavourite(movie));
     }
-    render(){
+    render() {
         const { movie, isFavourite } = this.props;
-    return (
-        <div className="movie-card">
-            <div className="left">
-                <img alt="movie-poster" src={movie.Poster} /> 
+        return (
+            <div className="movie-card">
+                <div className="left">
+                    <img alt="movie-poster" src={movie.Poster} />
+                </div>
+                <div className="right">
+                    <div className="title">{movie.Title}</div>
+                    <div className="plot">{movie.Plot}</div>
+                    <div className="footer">
+                        <div className="rating">{movie.imdbRating}</div>
+                        {
+                            isFavourite
+                                ? <button className="unfavourite-btn" onClick={this.handleUnFavouriteClick}>Unfavourite</button>
+                                : <button className="favourite-btn" onClick={this.handleFavouriteClick}>Favourite</button>
+                        }
+                    </div>
+                </div>
             </div>
-            <div className="right">
-    <div className="title">{movie.Title}</div>
-    <div className="plot">{movie.Plot}</div>
-    <div className="footer">
-        <div className="rating">{movie.imdbRating}</div>
-        {
-            isFavourite
-            ? <button className="unfavourite-btn" onClick={this.handleUnFavouriteClick}>Unfavourite</button>
-            : <button className="favourite-btn" onClick={this.handleFavouriteClick}>Favourite</button>
-        }
-    </div>
-            </div>
-        </div>
         );
     }
 }
